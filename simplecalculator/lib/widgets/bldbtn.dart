@@ -14,19 +14,20 @@ class BldBtn extends StatelessWidget {
     final btnProvider = Provider.of<ButtonData>(context);
 
     return Container(
-      color: btnBgColor,
-      height: MediaQuery.of(context).size.height * .10 * btnSize,
-      child: FlatButton(
-          onPressed: () => btnProvider.clickedBtn(btnName),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0),
-              side: const BorderSide(
-                  color: Colors.white, style: BorderStyle.solid, width: 1)),
-          child: Text(btnName,
-              style: const TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal))),
-    );
+        color: btnBgColor,
+        height: MediaQuery.of(context).size.height * .10 * btnSize,
+        child: TextButton(
+            onPressed: () => btnProvider.clickedBtn(btnName),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0.0),
+                  side: const BorderSide(
+                      color: Colors.white, style: BorderStyle.solid, width: 1)),
+            ),
+            child: Text(btnName,
+                style: const TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal))));
   }
 }
