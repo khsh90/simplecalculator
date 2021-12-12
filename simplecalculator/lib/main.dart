@@ -1,77 +1,55 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import "package:flutter/material.dart";
 import 'package:math_expressions/math_expressions.dart';
 
-main() => runApp(const MyApp());
+main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Simple Calculator',
+      title: 'Dandooneh Calculator',
       theme: ThemeData(primaryColor: Colors.blue),
-      home: const Calculator(),
+      home: Calculator(),
     );
   }
 }
 
 class Calculator extends StatefulWidget {
-  const Calculator({Key? key}) : super(key: key);
-
   @override
   _CalculatorState createState() => _CalculatorState();
 }
 
 class _CalculatorState extends State<Calculator> {
-  Widget bulidButton(String buttonName, buttonHieght, Color backGroundColor) {
-    return Container(
-      height: MediaQuery.of(context).size.height * .10 * buttonHieght,
-      color: backGroundColor,
-      child: FlatButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0.0),
-            side: const BorderSide(
-                color: Colors.white, width: 1, style: BorderStyle.solid)),
-        padding: const EdgeInsets.all(16),
-        onPressed: () => buttonTxt(buttonName),
-        child: Text(
-          buttonName,
-          style: const TextStyle(
-              fontSize: 30, color: Colors.white, fontWeight: FontWeight.normal),
-        ),
-      ),
-    );
-  }
-
-  String equation = '0';
   String result = '0';
-  String expression = '';
-  double equationFontSize = 38;
-  double resultFontSize = 48;
+  String expression = '0';
+  double expSize = 38;
+  double resultSize = 48;
 
-  void buttonTxt(String btnText) {
+  clickedBtn(btnName) {
     setState(() {
-      if (btnText == 'C') {
-        equation = '0';
-       
+      if (btnName == 'C') {
+        expSize = 48;
+        resultSize = 38;
         result = '0';
-        equationFontSize = 38;
-        resultFontSize = 48;
-      } else if (btnText == '⌫') {
-        equation = equation.substring(0, equation.length - 1);
-        if (equation.isEmpty) {
-          equation = '0';
-          equationFontSize = 48;
-          resultFontSize = 38;
+        expression = '0';
+      }
+
+      // -----------------------------------------------------------------
+
+      else if (btnName == '⌫') {
+        expSize = 38;
+        resultSize = 48;
+
+        expression = expression.substring(0, expression.length - 1);
+        if (expression == '') {
+          expression = '0';
         }
-      } else if (btnText == "=") {
-        equationFontSize = 48;
-        resultFontSize = 38;
-        expression = equation;
+      }
+      //-----------------------------------------------------------------------
+
+      else if (btnName == '=') {
         expression = expression.replaceAll('÷', '/');
         expression = expression.replaceAll('×', '*');
 
@@ -79,106 +57,126 @@ class _CalculatorState extends State<Calculator> {
           Parser p = Parser();
           Expression exp = p.parse(expression);
           ContextModel cm = ContextModel();
+
           result = '${exp.evaluate(EvaluationType.REAL, cm)}';
         } catch (e) {
           result = 'Error';
         }
-      } else if (equation == '0') {
-        equation = btnText;
-      } else {
-        equation += btnText;
+      }
+
+      // ------------------------------
+
+      else if (expression == '0') {
+        expression = btnName;
+      }
+      //  -------------------------------
+      else {
+        expression = expression + btnName;
       }
     });
+  }
+
+  Widget bldBtn(String btnName, double btnSize, Color btnBgColor) {
+    return Container(
+      color: btnBgColor,
+      height: MediaQuery.of(context).size.height * .10 * btnSize,
+      child: FlatButton(
+          onPressed: () => clickedBtn(btnName),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0.0),
+              side: const BorderSide(
+                  color: Colors.white, style: BorderStyle.solid, width: 1)),
+          child: Text(btnName,
+              style: const TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal))),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        centerTitle: true,
-        title: const Text(
-          'Hadidid Calculator',
-        ),
+        title: const Text('Simple Calculator'),
       ),
       body: Column(
         children: [
           Container(
             alignment: Alignment.centerRight,
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: Text(
-              equation,
-              style: TextStyle(fontSize: equationFontSize),
+              expression,
+              style: TextStyle(fontSize: expSize),
             ),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
           ),
           Container(
             alignment: Alignment.centerRight,
-            padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
             child: Text(
               result,
-              style: TextStyle(fontSize: resultFontSize),
+              style: TextStyle(fontSize: resultSize),
             ),
+            padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
           ),
           const Expanded(
               child: Divider(
             color: Colors.white,
           )),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.75,
+              Container(
+                width: MediaQuery.of(context).size.width * .75,
                 child: Table(
                   children: [
                     TableRow(children: [
-                      bulidButton('C', 1, Colors.redAccent),
-                      bulidButton('⌫', 1, Colors.blue),
-                      bulidButton('÷', 1, Colors.blue),
+                      bldBtn('C', 1, Colors.redAccent),
+                      bldBtn('⌫', 1, Colors.blue),
+                      bldBtn('÷', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bulidButton('7', 1, Colors.black54),
-                      bulidButton('8', 1, Colors.black54),
-                      bulidButton('9', 1, Colors.black54),
+                      bldBtn('1', 1, Colors.black45),
+                      bldBtn('2', 1, Colors.black45),
+                      bldBtn('3', 1, Colors.black45),
                     ]),
                     TableRow(children: [
-                      bulidButton('4', 1, Colors.black54),
-                      bulidButton('5', 1, Colors.black54),
-                      bulidButton('6', 1, Colors.black54),
+                      bldBtn('4', 1, Colors.black45),
+                      bldBtn('5', 1, Colors.black45),
+                      bldBtn('6', 1, Colors.black45),
                     ]),
                     TableRow(children: [
-                      bulidButton('1', 1, Colors.black54),
-                      bulidButton('2', 1, Colors.black54),
-                      bulidButton('3', 1, Colors.black54),
+                      bldBtn('7', 1, Colors.black45),
+                      bldBtn('8', 1, Colors.black45),
+                      bldBtn('9', 1, Colors.black45),
                     ]),
                     TableRow(children: [
-                      bulidButton('.', 1, Colors.black54),
-                      bulidButton('0', 1, Colors.black54),
-                      bulidButton('00', 1, Colors.black54),
+                      bldBtn('.', 1, Colors.black45),
+                      bldBtn('0', 1, Colors.black45),
+                      bldBtn('00', 1, Colors.black45),
                     ]),
                   ],
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * .25,
+              Container(
+                width: MediaQuery.of(context).size.width * 0.25,
                 child: Table(
                   children: [
                     TableRow(children: [
-                      bulidButton('×', 1, Colors.blue),
+                      bldBtn('×', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bulidButton('-', 1, Colors.blue),
+                      bldBtn('-', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bulidButton('+', 1, Colors.blue),
+                      bldBtn('+', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bulidButton('=', 2, Colors.redAccent),
+                      bldBtn('=', 2, Colors.redAccent),
                     ]),
                   ],
                 ),
               )
             ],
-          )
+          ),
         ],
       ),
     );
