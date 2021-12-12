@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:math_expressions/math_expressions.dart';
+import './widgets/bldbtn.dart';
 
 main() => runApp(MyApp());
 
@@ -76,24 +77,6 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
-  Widget bldBtn(String btnName, double btnSize, Color btnBgColor) {
-    return Container(
-      color: btnBgColor,
-      height: MediaQuery.of(context).size.height * .10 * btnSize,
-      child: FlatButton(
-          onPressed: () => clickedBtn(btnName),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0),
-              side: const BorderSide(
-                  color: Colors.white, style: BorderStyle.solid, width: 1)),
-          child: Text(btnName,
-              style: const TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal))),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,29 +112,29 @@ class _CalculatorState extends State<Calculator> {
                 child: Table(
                   children: [
                     TableRow(children: [
-                      bldBtn('C', 1, Colors.redAccent),
-                      bldBtn('⌫', 1, Colors.blue),
-                      bldBtn('÷', 1, Colors.blue),
+                      BldBtn('C', 1, Colors.redAccent),
+                      BldBtn('⌫', 1, Colors.blue),
+                      BldBtn('÷', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bldBtn('1', 1, Colors.black45),
-                      bldBtn('2', 1, Colors.black45),
-                      bldBtn('3', 1, Colors.black45),
+                      BldBtn('1', 1, Colors.black45),
+                      BldBtn('2', 1, Colors.black45),
+                      BldBtn('3', 1, Colors.black45),
                     ]),
                     TableRow(children: [
-                      bldBtn('4', 1, Colors.black45),
-                      bldBtn('5', 1, Colors.black45),
-                      bldBtn('6', 1, Colors.black45),
+                      BldBtn('4', 1, Colors.black45),
+                      BldBtn('5', 1, Colors.black45),
+                      BldBtn('6', 1, Colors.black45),
                     ]),
                     TableRow(children: [
-                      bldBtn('7', 1, Colors.black45),
-                      bldBtn('8', 1, Colors.black45),
-                      bldBtn('9', 1, Colors.black45),
+                      BldBtn('7', 1, Colors.black45),
+                      BldBtn('8', 1, Colors.black45),
+                      BldBtn('9', 1, Colors.black45),
                     ]),
                     TableRow(children: [
-                      bldBtn('.', 1, Colors.black45),
-                      bldBtn('0', 1, Colors.black45),
-                      bldBtn('00', 1, Colors.black45),
+                      BldBtn('.', 1, Colors.black45),
+                      BldBtn('0', 1, Colors.black45),
+                      BldBtn('00', 1, Colors.black45),
                     ]),
                   ],
                 ),
@@ -161,16 +144,16 @@ class _CalculatorState extends State<Calculator> {
                 child: Table(
                   children: [
                     TableRow(children: [
-                      bldBtn('×', 1, Colors.blue),
+                      BldBtn('×', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bldBtn('-', 1, Colors.blue),
+                      BldBtn('-', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bldBtn('+', 1, Colors.blue),
+                      BldBtn('+', 1, Colors.blue),
                     ]),
                     TableRow(children: [
-                      bldBtn('=', 2, Colors.redAccent),
+                      BldBtn('=', 2, Colors.redAccent),
                     ]),
                   ],
                 ),
